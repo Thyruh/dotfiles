@@ -1,0 +1,165 @@
+(require 'package)
+(setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                         ("gnu" . "https://elpa.gnu.org/packages/")
+                         ("org" . "https://orgmode.org/elpa/")))
+
+(package-initialize)
+
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
+(eval-when-compile
+  (require 'use-package))
+
+;; TODO windresize add a hotkey
+
+(require 'package)
+(setq package-enable-at-startup nil)
+(package-initialize)
+
+(defvar my-packages '(counsel ivy gruber-darker-theme lsp-mode lsp-treemacs lsp-ui)
+  "A list of packages to ensure are installed.")
+
+(dolist (pkg my-packages)
+  (unless (package-installed-p pkg)
+    (package-refresh-contents)
+    (package-install pkg)))
+
+;; Basic UI customizations -----------------------------------------------------
+
+(tool-bar-mode 0)
+(menu-bar-mode 0)
+(scroll-bar-mode 0)
+
+(setq show-paren-delay 0) ;; No delay
+(show-paren-mode 1)
+
+;; Make Emacs usable ----------------------------------------------------------
+
+(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+
+;; Enable relative line numbers globally -----------------------------------
+(setq display-line-numbers-type 'relative)
+(global-display-line-numbers-mode)
+
+;; Ivy and Counsel setup ------------------------------------------------------
+(ivy-mode 1)
+(global-set-key (kbd "C-,") 'counsel-switch-buffer)
+
+;; Disable arrow keys globally ------------------------------------------------
+(global-set-key [left] 'ignore)
+(global-set-key [right] 'ignore)
+(global-set-key [up] 'ignore)
+(global-set-key [down] 'ignore)
+(global-set-key (kbd "C-<left>") 'ignore)
+(global-set-key (kbd "C-<right>") 'ignore)
+(global-set-key (kbd "C-<up>") 'ignore)
+(global-set-key (kbd "C-<down>") 'ignore)
+(global-set-key (kbd "M-<left>") 'ignore)
+(global-set-key (kbd "M-<right>") 'ignore)
+(global-set-key (kbd "M-<up>") 'ignore)
+(global-set-key (kbd "M-<down>") 'ignore)
+
+(global-set-key (kbd "<RET>") 'default-indent-new-line)
+
+;; Theme setup ---------------------------------------------------------------
+(load-theme 'doom-ir-black t)
+
+;; Hotkeys for navigation between files -------------------------------------
+(defvar my-init-file "~/.emacs")
+(global-set-key (kbd "C-c f") (lambda () (interactive) (find-file my-init-file)))
+(global-set-key (kbd "C-c r") (lambda () (interactive) (message "Switching to fish config file...") (find-file "~/.bashrc")))
+(global-set-key (kbd "C-c v") (lambda () (interactive) (message "Switching to the main programming directory...") (find-file "~/Architect")))
+
+;; Keybinding for selecting word --------------------------------------------
+(defun select-word ()
+  "Select the current word."
+  (interactive)
+  (skip-syntax-backward "w_")
+  (set-mark (point))
+  (skip-syntax-forward "w_"))
+(global-set-key (kbd "C-c [") 'select-word)
+
+;; Keybinding for selecting current line -----------------------------------
+(defun select-current-line ()
+  "Select the whole line."
+  (interactive)
+  (message "Entered selection mode")
+  (move-beginning-of-line 1)
+  (set-mark (point))
+  (move-end-of-line 1))
+(global-set-key (kbd "C-c l") 'select-current-line)
+
+;; Functions for jumping around in the buffer ---------------------nn----------
+(defun jump-n-lines (n)
+  "Jump forward by N lines if N is positive, or backward by N lines if negative."
+  (interactive "nNumber of lines to jump: ")
+  (forward-line n))
+(global-set-key (kbd "M-g g") 'jump-n-lines)
+
+;; Duplication and evaluation -------------------------------------------------
+(defun duplicate-current-line ()
+  "Duplicate the current line."
+  (interactive)
+  (beginning-of-line)
+  (kill-ring-save (point) (line-end-position))
+  (end-of-line)
+  (newline)
+  (yank))
+(global-set-key (kbd "C-c d") 'duplicate-current-line)
+
+(global-set-key (kbd "C-j")
+  (lambda () 
+    (interactive) 
+    (eval-buffer)
+    (message "Buffer evaluated!")))
+
+;; Compilation functions -----------------------------------------------------
+(defun compile-cpp ()  
+  "Compile the current C++ file using g++."
+  (interactive)
+  (message "Compiling cpp code...")
+  (let ((output-file (concat "~/Architect/C++/bins/" (file-name-sans-extension (file-name-nondirectory (buffer-file-name))))))
+
+    ;; Compile using g++
+    (compile (concat "g++ -o " output-file " " (buffer-file-name)))))
+(global-set-key (kbd "C-c C-r") 'compile-cpp)
+
+(defun compile-haskell ()
+  "Compile the current Haskell file."
+  (interactive)
+  (message "Compiling Haskell code...")
+  (compile (concat "ghc -o " 
+                   (shell-quote-argument (concat (file-name-sans-extension (buffer-file-name)) ".out"))
+                   " " 
+                   (shell-quote-argument (buffer-file-name)))))
+(global-set-key (kbd "C-c C-h") 'compile-haskell)
+
+;; Other miscellaneous keybindings -----------------------------------------
+(global-set-key (kbd "C-c h") 'hoogle)
+
+;; Auto loading part ----------------------------------------------------------
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("f4d1b183465f2d29b7a2e9dbe87ccc20598e79738e5d29fc52ec8fb8c576fcfd" "e13beeb34b932f309fb2c360a04a460821ca99fe58f69e65557d6c1b10ba18c7" default))
+ '(inhibit-startup-screen t)
+ '(package-selected-packages
+   '(lsp-treemacs lsp-mode lsp-ui eglot doom-themes counsel ivy-explorer ivy gruber-darker-theme)))
+
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+(put 'upcase-region 'disabled nil)
+
+
+
+
