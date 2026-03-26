@@ -1,0 +1,42 @@
+vim.opt.guicursor = ""
+vim.keymap.set('i', '<C-[>', '<Esc>', { noremap = true })
+vim.opt.clipboard = ""
+
+-- get rid of annoying tildas
+vim.opt.fillchars = { eob = ' ' }
+
+vim.g.netrw_liststyle = 1
+vim.opt.nu = true
+vim.opt.relativenumber = true
+
+vim.o.guicursor = "n-v-c:block,i:ver25,r:hor20"
+
+vim.opt.tabstop = 3
+vim.opt.softtabstop = 3
+vim.opt.shiftwidth = 3
+vim.opt.expandtab = true
+vim.opt.smartindent = false
+vim.opt.cindent = true
+vim.g.netrw_banner = 0
+vim.opt.cinoptions:append("g0")
+
+
+vim.opt.wrap = false
+
+vim.opt.swapfile = false
+vim.opt.backup = false
+vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
+vim.opt.undofile = true
+
+vim.opt.hlsearch = false
+vim.opt.incsearch = true
+
+vim.opt.termguicolors = true
+
+vim.opt.scrolloff = 5
+vim.opt.signcolumn = "yes"
+vim.opt.isfname:append("@-@")
+
+vim.opt.updatetime = 50
+
+vim.opt.colorcolumn = "120"
