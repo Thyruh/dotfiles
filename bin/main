@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+BINARY="main"
+TARGET_DIR="$PWD"
+
+if [ -f "$TARGET_DIR/${BINARY}.c" ]; then
+    gcc "$TARGET_DIR/${BINARY}.c" -o "$TARGET_DIR/$BINARY" && "$TARGET_DIR/$BINARY" || exit 1
+fi
+
+
