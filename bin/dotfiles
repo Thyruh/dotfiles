@@ -1,24 +1,19 @@
 #!/usr/bin/env bash
-
 DESTINATION="$HOME/dotfiles"
 
-# List of files and directories to copy
 FILES=(
-    "notes.md"
     "notes.md"
     "bin/"
     ".zshrc"
     ".tmux/"
     ".tmux.conf"
-    ".emacs"
-    ".emacs.d"
+    # ".emacs.d"
+    # ".emacs"
     ".config/nvim"
     ".config/i3"
-    "backup-dotfiles.sh"
-    "gh-dump.py"
 )
 
-mkdir -p "$DESTINATION" 
+mkdir -p "$DESTINATION"
 
 for f in "${FILES[@]}"; do
     SRC="$HOME/$f"
@@ -34,3 +29,7 @@ done
 
 find "$DESTINATION" -mindepth 2 -type d -name ".git" -exec rm -rf {} + 2>/dev/null
 find "$DESTINATION" -mindepth 2 -type f \( -name ".gitignore" -o -name ".gitattributes" -o -name ".gitmodules" \) -exec rm -f {} +
+
+COMMIT_MSG="${1:-...}"
+
+cd "$DESTINATION" && git add . && git commit -m "$COMMIT_MSG" && git push

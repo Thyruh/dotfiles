@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+BINARY="nob"
+TARGET_DIR="$PWD"
+
+if [ ! -f "$TARGET_DIR/$BINARY" ] && [ -f "$TARGET_DIR/${BINARY}.c" ]; then
+    gcc "$TARGET_DIR/${BINARY}.c" -o "$TARGET_DIR/$BINARY" || exit 1
+elif [ ! -f "$TARGET_DIR/$BINARY" ] && [ ! -f "$TARGET_DIR/${BINARY}.c" ]; then
+    echo "No binary and no nob.c in the current directory!"
+    exit 1
+fi
+
+"$TARGET_DIR/$BINARY" "$@"
