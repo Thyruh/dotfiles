@@ -2,25 +2,16 @@ vim.g.mapleader = " "
 -- Internal registers as default target
 vim.opt.clipboard = "unnamedplus"
 
--- y copies to system clipboard AND still goes to unnamed register
-local function yank_both()
-   vim.cmd('normal! "+y')
-end
-
-vim.keymap.set({ "n", "v" }, "y", yank_both, { noremap = true, silent = true })
-
 -- system paste
 vim.keymap.set({ "n", "v" }, "p", '"+p')
 vim.keymap.set({ "n", "v" }, "P", '"+P')
 
 -- internal paste (last yank)
 vim.keymap.set({ "n", "v" }, "<leader>p", '"0p')
-
 vim.keymap.set("n", "<leader><leader>", function()
     vim.cmd("Ex")
 end)
 
-vim.keymap.set("n", "yv", "yy")
 vim.keymap.set({"n", "v"}, "<C-i>", "<C-u>zz")
 vim.keymap.set({"n", "v"}, "<C-u>", "<C-d>zz")
 
