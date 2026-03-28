@@ -1,6 +1,5 @@
 vim.opt.guicursor = ""
-vim.keymap.set('i', '<C-[>', '<Esc>', { noremap = true })
-vim.opt.clipboard = ""
+vim.opt.clipboard = "unnamedplus"
 
 -- get rid of annoying tildas
 vim.opt.fillchars = { eob = ' ' }

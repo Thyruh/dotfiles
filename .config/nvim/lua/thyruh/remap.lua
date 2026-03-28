@@ -1,13 +1,6 @@
 vim.g.mapleader = " "
--- Internal registers as default target
-vim.opt.clipboard = "unnamedplus"
-
--- system paste
-vim.keymap.set({ "n", "v" }, "p", '"+p')
-vim.keymap.set({ "n", "v" }, "P", '"+P')
-
--- internal paste (last yank)
 vim.keymap.set({ "n", "v" }, "<leader>p", '"0p')
+
 vim.keymap.set("n", "<leader><leader>", function()
     vim.cmd("Ex")
 end)
@@ -25,6 +18,8 @@ vim.keymap.set("i", "<TAB>", function()
   end
   return "<C-x><C-o>"
 end, { expr = true, silent = true })
+
+vim.keymap.set('i', '<C-c>', '<Esc>', { noremap = true })
 
 vim.keymap.set("n", "<C-f>", "i#include <stdio.h>\n#include <stdbool.h>\n#include <stdint.h>\n\ntypedef int8_t i8;\ntypedef int16_t i16;\ntypedef int32_t i32;\ntypedef int64_t i64;\ntypedef uint8_t u8;\ntypedef uint16_t u16;\ntypedef uint32_t u32;\ntypedef uint64_t u64;\n\ntypedef float f32;\ntypedef double f64;\n\nint main(void) {\nprintf(\"Hello, World!\\n\");\nreturn 0;\n}")
 

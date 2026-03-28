@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 BINARY="main"
 TARGET_DIR="$PWD"
-TARGET_DIR="-Wall -Wextra -pedantic -O3"
+TARGET_DIR="-Wall -Wextra -pedantic -O3 "
 
 # pipe the arguments if needed
 
