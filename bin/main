@@ -1,12 +1,10 @@
 #!/usr/bin/env bash
 BINARY="main"
 TARGET_DIR="$PWD"
-TARGET_DIR="-Wall -Wextra -pedantic -O3 "
+CFLAGS="-O3 -std=c23 -Wall -Wextra -pedantic -Wshadow -Wconversion -Wsign-conversion -Wno-stringop-overread"
 
 # pipe the arguments if needed
 
 if [ -f "$TARGET_DIR/${BINARY}.c" ]; then
-    gcc "$TARGET_DIR"/*.c -o "$TARGET_DIR/$BINARY" && "$TARGET_DIR/$BINARY" || exit 1
+   gcc "$TARGET_DIR"/*.c $CFLAGS -o "$TARGET_DIR/$BINARY" && "$TARGET_DIR/$BINARY" || exit 1
 fi
-
-

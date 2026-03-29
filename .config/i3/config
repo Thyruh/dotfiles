@@ -209,7 +209,7 @@ exec feh --bg-fill /home/thyruh/Documents/wallpaper/pyramid.png
 
 exec setxkbmap caps:escape
 
-exec --no-startup-id redshift
+# exec --no-startup-id redshift
 
 assign [class="Chromium"] → 2
 assign [class="Tilix"] → 3
