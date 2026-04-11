@@ -5,6 +5,7 @@ vim.keymap.set("n", "<leader><leader>", function()
     vim.cmd("Ex")
 end)
 
+vim.keymap.del("s", "<Tab>")  -- remove _defaults.lua snippet jump in select
 vim.keymap.set({"n", "v"}, "<C-i>", "<C-u>zz")
 vim.keymap.set({"n", "v"}, "<C-u>", "<C-d>zz")
 
@@ -30,8 +31,6 @@ vim.keymap.set("n", "E", "$")
 vim.keymap.set("n", "Q", "0")
 vim.keymap.set("n", "yE", "y$")
 vim.keymap.set("n", "dE", "d$")
-
-vim.keymap.set('n', "<C-d>", '<Nop>')
 
 -- === Emacs-inspired window management ===
 
