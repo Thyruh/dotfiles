@@ -19,7 +19,6 @@ vim.opt.cindent = true
 vim.g.netrw_banner = 0
 vim.opt.cinoptions:append("g0")
 
-
 vim.opt.wrap = false
 
 vim.opt.swapfile = false
@@ -38,4 +37,4 @@ vim.opt.isfname:append("@-@")
 
 vim.opt.updatetime = 50
 
-vim.opt.colorcolumn = "120"
+vim.opt.colorcolumn = "80"

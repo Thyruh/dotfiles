@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+if [[ $# -eq 1 && $1 == '-v' ]]; then
+    if [[ -n $TMUX ]]; then
+        selected=$(tmux list-sessions -F '#S' | fzf)
+        [[ -z $selected ]] && exit 0
+        tmux switch-client -t "$selected"
+    else
+        tmux list-sessions
+    fi
+    exit 0
+fi
+
+if [[ $# -eq 1 && $1 == '-k' ]]; then
+    if [[ -n $TMUX ]]; then
+        selected=$(tmux list-sessions -F '#S' | fzf)
+        [[ -z $selected ]] && exit 0
+        tmux kill-session -t "$selected"
+    else
+        tmux list-sessions
+    fi
+    exit 0
+fi
+
+if [[ $# -eq 1 ]]; then
+    selected=$1
+else
+    selected=$(
+        find "$HOME/dev" \
+            \( -path '*/.git' -o -path '*/build' -o -path '*/target' -o -path '*/.cache' -o -path '*/.github' -o -path '*/fonts' -o -path '*/gitclone' \) -prune -o \
+            -type d -mindepth 1 -maxdepth 6 -print 2>/dev/null | fzf
+    )
+fi
+
+[[ -z $selected ]] && exit 0
+
+selected_name=$(basename "$selected" | tr '.:' '__')
+
+if [[ -z $TMUX ]]; then
+    tmux new-session -s "$selected_name" -c "$selected"
+    exit 0
+fi
+
+if ! tmux has-session -t "$selected_name" 2>/dev/null; then
+    tmux new-session -ds "$selected_name" -c "$selected"
+fi
+
+tmux switch-client -t "$selected_name"
