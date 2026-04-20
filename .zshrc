@@ -20,8 +20,6 @@ export PATH=/home/thyruh/bin:/home/thyruh/.cargo/bin:/home/thyruh/.dub/packages/
 set -o vi
 setxkbmap -option caps:escape
 
-tmux a
-tmux
 clear
 
 alias discord='flatpak run com.discordapp.Discord'

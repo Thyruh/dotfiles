@@ -10,9 +10,9 @@ vim.opt.relativenumber = true
 
 vim.o.guicursor = "n-v-c:block,i:ver25,r:hor20"
 
-vim.opt.tabstop = 3
-vim.opt.softtabstop = 3
-vim.opt.shiftwidth = 3
+vim.opt.tabstop = 2
+vim.opt.softtabstop = 2
+vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
 vim.opt.smartindent = false
 vim.opt.cindent = true
@@ -37,4 +37,4 @@ vim.opt.isfname:append("@-@")
 
 vim.opt.updatetime = 50
 
-vim.opt.colorcolumn = "80"
+vim.opt.colorcolumn = "100"

@@ -6,5 +6,5 @@ CFLAGS="-O3 -std=c23 -Wall -Wextra -pedantic -Wshadow -Wconversion -Wsign-conver
 # pipe the arguments if needed
 
 if [ -f "$TARGET_DIR/${BINARY}.c" ]; then
-   gcc "$TARGET_DIR"/*.c $CFLAGS -o "$TARGET_DIR/$BINARY" && "$TARGET_DIR/$BINARY" || exit 1
+   time gcc "$TARGET_DIR"/*.c $CFLAGS -o "$TARGET_DIR/$BINARY" && time "$TARGET_DIR/$BINARY" || exit 1
 fi
