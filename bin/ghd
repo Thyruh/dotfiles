@@ -1,0 +1,110 @@
+#!/usr/bin/env python3
+
+import sys
+import json
+import urllib.request
+import urllib.error
+import urllib.parse
+import os
+
+def github_api(url):
+    headers = {
+        "Accept": "application/vnd.github+json",
+        "User-Agent": "gh_dump"
+    }
+
+    token = os.getenv("GITHUB_TOKEN")
+    if token:
+        headers["Authorization"] = f"Bearer {token}"
+
+    req = urllib.request.Request(url, headers=headers)
+
+    try:
+        with urllib.request.urlopen(req) as resp:
+            return json.loads(resp.read().decode())
+    except urllib.error.HTTPError as e:
+        body = e.read().decode() if e.fp else ""
+        print(f"HTTP {e.code}: {url}")
+        if body:
+            print(body)
+        sys.exit(1)
+
+
+def parse_repo(inp):
+    inp = inp.strip()
+
+    if inp.startswith("http"):
+        inp = inp.replace("https://github.com/", "").replace("http://github.com/", "")
+        inp = inp.strip("/")
+
+    parts = inp.split("/")
+    if len(parts) != 2:
+        print("Expected format: <owner>/<repo>")
+        sys.exit(1)
+
+    return parts[0], parts[1]
+
+
+def get_branches(owner, repo):
+    url = f"https://api.github.com/repos/{owner}/{repo}/branches"
+    data = github_api(url)
+    return [b["name"] for b in data]
+
+
+def choose_branch(branches):
+    if not branches:
+        print("No branches found")
+        sys.exit(1)
+
+    if len(branches) == 1:
+        return branches[0]
+
+    print()
+
+    for i, b in enumerate(branches, 1):
+        print(f"{i}. {b}")
+
+    print()
+
+    while True:
+        choice = input("Select branch: ").strip()
+        if choice.isdigit():
+            idx = int(choice) - 1
+            if 0 <= idx < len(branches):
+                print()
+                return branches[idx]
+
+
+def walk(owner, repo, branch, path=""):
+    safe_path = urllib.parse.quote(path, safe="/")
+    url = f"https://api.github.com/repos/{owner}/{repo}/contents/{safe_path}?ref={branch}"
+
+    data = github_api(url)
+
+    if isinstance(data, dict):
+        data = [data]
+
+    for entry in data:
+        if entry["type"] == "file":
+            print(entry["download_url"])
+        elif entry["type"] == "dir":
+            walk(owner, repo, branch, entry["path"])
+
+
+def main():
+    if len(sys.argv) < 2:
+        print("Usage: gh <owner/repo | url>")
+        sys.exit(1)
+
+    owner, repo = parse_repo(sys.argv[1])
+
+    branches = get_branches(owner, repo)
+    branch = choose_branch(branches)
+
+    print()
+
+    walk(owner, repo, branch)
+
+
+if __name__ == "__main__":
+    main()

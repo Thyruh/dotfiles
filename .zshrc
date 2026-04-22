@@ -1,4 +1,28 @@
-export PROMPT="%F{blue}%~%f ———> %F{red}thyruh%f: "
+autoload -Uz vcs_info add-zsh-hook
+
+_prompt_git_or_fallback() {
+    vcs_info
+    local branch
+    if [[ $(git rev-parse --is-bare-repository 2>/dev/null) == "true" && \
+          $(git rev-parse --absolute-git-dir 2>/dev/null) == "$PWD" ]]; then
+        PROMPT='%F{38}%1d%f ———> %F{red}thyruh%f: '
+    elif [[ -n $vcs_info_msg_0_ ]]; then
+        branch="${vcs_info_msg_0_#'git:('}"
+        branch="${branch%')'}"
+        if [[ "${PWD:t}" == "$branch" ]]; then
+            PROMPT='%F{38}%1d%f ———> %F{red}thyruh%f: '
+        else
+            PROMPT='%F{38}%1d%f %F{blue}git:(%f%F{red}'"${branch}"'%f%F{blue})%f: '
+        fi
+    else
+        PROMPT='%F{38}%1d%f ———> %F{red}thyruh%f: '
+    fi
+}
+
+add-zsh-hook precmd _prompt_git_or_fallback
+zstyle ':vcs_info:git:*' formats 'git:(%b)'
+zstyle ':vcs_info:git:*' actionformats 'git:(%b|%a)'
+setopt PROMPT_SUBST
 
 # Aliases
 alias cls='clear && cd'

@@ -23,7 +23,10 @@ end, { expr = true, silent = true })
 vim.keymap.set('i', '<C-c>', '<Esc>', { noremap = true })
 
 vim.keymap.set("n", "<C-t>", "i#include <stdio.h>\n#include <stdbool.h>\n#include <stdint.h>\n\ntypedef int8_t i8;\ntypedef int16_t i16;\ntypedef int32_t i32;\ntypedef int64_t i64;\ntypedef uint8_t u8;\ntypedef uint16_t u16;\ntypedef uint32_t u32;\ntypedef uint64_t u64;\n\ntypedef float f32;\ntypedef double f64;\n\nint main(void) {\nprintf(\"Hello, World!\\n\");\nreturn 0;\n}")
+
 vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tms<CR>")
+-- vim.keymap.set("n", "<M-h>", "<cmd>silent !tmux-sessionizer -s 0 --vsplit<CR>")
+-- vim.keymap.set("n", "<M-H>", "<cmd>silent !tmux neww tmux-sessionizer -s 0<CR>")
 
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
