@@ -12,6 +12,24 @@ return require('packer').startup(function(use)
       -- or                           , branch = '0.1.x',
       requires = { {'nvim-lua/plenary.nvim'} }
    }
+
+   use {
+     "ThePrimeagen/git-worktree.nvim",
+     requires = { "nvim-telescope/telescope.nvim" },
+     config = function()
+       require("git-worktree").setup()
+       require("telescope").load_extension("git_worktree")
+
+       vim.keymap.set("n", "<leader>wl", function()
+         require("telescope").extensions.git_worktree.git_worktrees()
+       end)
+
+       vim.keymap.set("n", "<leader>wc", function()
+         require("telescope").extensions.git_worktree.create_git_worktree()
+       end)
+     end
+   }
+
    use {
       "rmagatti/auto-session",
       config = function()

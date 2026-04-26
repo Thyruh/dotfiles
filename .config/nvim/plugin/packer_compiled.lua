@@ -135,6 +135,12 @@ _G.packer_plugins = {
     path = "/home/thyruh/.local/share/nvim/site/pack/packer/start/friendly-snippets",
     url = "https://github.com/rafamadriz/friendly-snippets"
   },
+  ["git-worktree.nvim"] = {
+    config = { "\27LJ\2\n_\0\0\3\0\5\0\b6\0\0\0'\2\1\0B\0\2\0029\0\2\0009\0\3\0009\0\4\0B\0\1\1K\0\1\0\18git_worktrees\17git_worktree\15extensions\14telescope\frequiree\0\0\3\0\5\0\b6\0\0\0'\2\1\0B\0\2\0029\0\2\0009\0\3\0009\0\4\0B\0\1\1K\0\1\0\24create_git_worktree\17git_worktree\15extensions\14telescope\frequireŸ\1\1\0\5\0\14\0\0266\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\0016\0\0\0'\2\3\0B\0\2\0029\0\4\0'\2\5\0B\0\2\0016\0\6\0009\0\a\0009\0\b\0'\2\t\0'\3\n\0003\4\v\0B\0\4\0016\0\6\0009\0\a\0009\0\b\0'\2\t\0'\3\f\0003\4\r\0B\0\4\1K\0\1\0\0\15<leader>wc\0\15<leader>wl\6n\bset\vkeymap\bvim\17git_worktree\19load_extension\14telescope\nsetup\17git-worktree\frequire\0" },
+    loaded = true,
+    path = "/home/thyruh/.local/share/nvim/site/pack/packer/start/git-worktree.nvim",
+    url = "https://github.com/ThePrimeagen/git-worktree.nvim"
+  },
   ["gruber-darker.nvim"] = {
     loaded = true,
     path = "/home/thyruh/.local/share/nvim/site/pack/packer/start/gruber-darker.nvim",
@@ -219,6 +225,10 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
+-- Config for: git-worktree.nvim
+time([[Config for git-worktree.nvim]], true)
+try_loadstring("\27LJ\2\n_\0\0\3\0\5\0\b6\0\0\0'\2\1\0B\0\2\0029\0\2\0009\0\3\0009\0\4\0B\0\1\1K\0\1\0\18git_worktrees\17git_worktree\15extensions\14telescope\frequiree\0\0\3\0\5\0\b6\0\0\0'\2\1\0B\0\2\0029\0\2\0009\0\3\0009\0\4\0B\0\1\1K\0\1\0\24create_git_worktree\17git_worktree\15extensions\14telescope\frequireŸ\1\1\0\5\0\14\0\0266\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\0016\0\0\0'\2\3\0B\0\2\0029\0\4\0'\2\5\0B\0\2\0016\0\6\0009\0\a\0009\0\b\0'\2\t\0'\3\n\0003\4\v\0B\0\4\0016\0\6\0009\0\a\0009\0\b\0'\2\t\0'\3\f\0003\4\r\0B\0\4\1K\0\1\0\0\15<leader>wc\0\15<leader>wl\6n\bset\vkeymap\bvim\17git_worktree\19load_extension\14telescope\nsetup\17git-worktree\frequire\0", "config", "git-worktree.nvim")
+time([[Config for git-worktree.nvim]], false)
 -- Config for: auto-session
 time([[Config for auto-session]], true)
 try_loadstring("\27LJ\2\nä\1\0\0\4\0\6\0\t6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\4\0005\3\3\0=\3\5\2B\0\2\1K\0\1\0\20suppressed_dirs\1\0\1\20suppressed_dirs\0\1\5\0\0\a~/\15~/Projects\16~/Downloads\6/\nsetup\17auto-session\frequire\0", "config", "auto-session")

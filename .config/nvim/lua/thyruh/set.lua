@@ -38,3 +38,5 @@ vim.opt.isfname:append("@-@")
 vim.opt.updatetime = 50
 
 vim.opt.colorcolumn = "100"
+vim.api.nvim_set_hl(0, "StatusLineBranch", { fg = "#ff6600", bold = true })
+vim.o.statusline = "%F  %#StatusLineBranch#%{FugitiveHead()}%*"
