@@ -57,7 +57,7 @@ mason.setup({})
 
 mason_lspconfig.setup({
    ensure_installed = { "clangd" },
-   automatic_installation = true,
+   automatic_installation = false,
 })
 
 vim.lsp.config("rust_analyzer", {
