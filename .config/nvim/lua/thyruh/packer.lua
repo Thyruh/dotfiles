@@ -91,5 +91,11 @@ return require('packer').startup(function(use)
       "saadparwaiz1/cmp_luasnip",
       "j-hui/fidget.nvim",
    })
+   use {
+     "junegunn/vim-easy-align",
+     config = function()
+       vim.keymap.set({ "n", "x" }, "ga", "<Plug>(EasyAlign)", { silent = true })
+     end
+   }
 end)
 
