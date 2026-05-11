@@ -32,4 +32,4 @@ find "$DESTINATION" -mindepth 2 -type f \( -name ".gitignore" -o -name ".gitattr
 
 COMMIT_MSG="${1:-...}"
 
-cd "$DESTINATION" && git diff && git add . && git commit -m "$COMMIT_MSG" && git push
+cd "$DESTINATION" && git diff && git add . && git commit -m "$COMMIT_MSG" && git push --set-upstream origin arch
