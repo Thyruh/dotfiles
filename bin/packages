@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+output="$HOME/dotfiles/packs.txt"
+
+mkdir -p "$HOME/dotfiles"
+
+pacman -Qe | awk '{print $1}' > "$output"

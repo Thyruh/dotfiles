@@ -58,7 +58,7 @@ bindsym $mod+c exec --no-startup-id tilix
 
 bindsym $mod+Shift+q kill
 
-# start dmenu (a program launcher)
+# start  (a program launcher)
 bindsym $mod+d exec rofi -show drun
 # A more modern dmenu replacement is rofi:
 # bindcode $mod+40 exec "rofi -modi drun,run -show drun"
@@ -188,6 +188,7 @@ bar {
         status_command i3status
         position bottom
         output eDP-1
+        output HDMI-2
         separator_symbol " | "
         font pango:Hack, FontAwesome 9
 }
@@ -205,19 +206,36 @@ bindsym $mod+Shift+s exec --no-startup-id flameshot gui
 
 bindsym F1 exec cd ~/bin && ./boomer
 
-exec feh --bg-fill /home/thyruh/Documents/wallpaper/pyramid.png
+exec setxkbmap -layout "us,ru" -option "grp:ctrl_space_toggle,caps:escape"
 
+exec feh --bg-max /home/thyruh/wallpaper/retro-pyramid-synthwave.jpg
 exec setxkbmap caps:escape
 
-# exec --no-startup-id redshift
-
+# assign [class="Emacs"] → 3
+assign [class="Spotify"] → 1
 assign [class="Chromium"] → 2
 assign [class="Tilix"] → 3
-assign [class="Discord"] → 4
+assign [class="discord"] → 4
+assign [class="Telegram"] → 4
+assign [class="Dolphin"] → 7
 
-exec --no-startup-id tilix
-exec --no-startup-id chromium
+# exec --no-startup-id emacs
 exec --no-startup-id discord
+exec --no-startup-id telegram
+exec --no-startup-id chromium
+exec --no-startup-id spotify
+exec --no-startup-id tilix
+exec --no-startup-id telegram-desktop
+
+
+#bindsym $mod+c exec --no-startup-id pgrep -x chromium || chromium; [class="Chromium"] focus, fullscreen
+#bindsym $mod+n exec --no-startup-id pgrep -x discord || discord; [class="discord"] focus, fullscreen
+#bindsym $mod+m exec --no-startup-id pgrep -x multimc || multimc; [class="MultiMC"] focus, fullscreen
+#bindsym $mod+t exec --no-startup-id pgrep -x telegram-desktop || telegram-desktop; [class="Telegram"] focus, fullscreen
+# bindsym $mod+e exec --no-startup-id pgrep -x emacs || emacs --no-splash; [class="Emacs"] focus, fullscreen
+
+# exec xrandr --output eDP-1 --off
+exec xrandr --output eDP-1 --auto --pos 0x-768 --output HDMI-2 --primary --auto --pos 0x0
 
 #bindsym $mod+c exec --no-startup-id pgrep -x chromium || chromium; [class="Chromium"] focus, fullscreen
 #bindsym $mod+n exec --no-startup-id pgrep -x discord || discord; [class="discord"] focus, fullscreen
