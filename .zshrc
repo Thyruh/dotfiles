@@ -38,10 +38,16 @@ alias cal='ncal'
 export PATH=/home/thyruh/bin:/home/thyruh/.cargo/bin:/home/thyruh/.dub/packages/dcd/0.16.2/dcd:/home/thyruh/.local/bin:/home/thyruh/.local/opt/go/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin:/home/thyruh/dlang/dmd-2.112.0/linux/bin64
 # Envman
 [ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
+xrandr --output eDP-1 --auto --pos 0x-768 --output HDMI-2 --primary --auto --pos 0x0
+feh --bg-max /home/thyruh/wallpaper/retro-pyramid-synthwave.jpg
+setxkbmap -layout "us,ru" -option "grp:ctrl_space_toggle,caps:escape"
 
 # Keyboard / shell
 set -o vi
-setxkbmap -option caps:escape
+HISTSIZE=100000
+
+SAVEHIST=100000
+HISTFILE=~/.config/.zsh_history
 
 clear
 

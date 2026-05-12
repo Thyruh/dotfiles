@@ -9,15 +9,11 @@
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
-
 set $mod Mod1
 
+# Best font
 font pango:JetBrains Mono 8
 
-# This font is widely installed, provides lots of unicode glyphs, right-to-left
-# text rendering and scalability on retina/hidpi displays (thanks to pango).
-# Font for window titles. Will also be used by the bar unless a different font
-# is used in the bar {} block below.
 #font pango:DejaVu Sans Mono 8
 
 # Start XDG autostart .desktop files using dex. See also
@@ -53,7 +49,9 @@ floating_modifier $mod
 tiling_drag modifier titlebar
 # ---------------------------------------------------------
 
+# Opens the running terminal instance if one is active instead of opening another
 bindsym $mod+Return exec --no-startup-id pgrep -x tilix || tilix; [class="Tilix"] focus, fullscreen
+# In case I do need another terminal instance (very rare)
 bindsym $mod+c exec --no-startup-id tilix
 
 bindsym $mod+Shift+q kill
@@ -157,8 +155,6 @@ bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
 bindsym $mod+Shift+w move container to workspace number $ws11
 
-for_window [class=".*"] border pixel 0
-
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
@@ -193,8 +189,12 @@ bar {
         font pango:Hack, FontAwesome 9
 }
 
+# sleep timer
+exec --no-startup-id xset s 7200 7200
+exec --no-startup-id xset +dpms
+exec --no-startup-id xset dpms 7200 7200 7200
 
-#Rest of the config
+# Useless shit
 exec --no-startup-id picom
 exec --no-startup-id pkill dunst
 
@@ -202,46 +202,51 @@ exec --no-startup-id xset -dpms
 exec --no-startup-id xset s off
 exec --no-startup-id xset s noblank
 
+# Screenshots
 bindsym $mod+Shift+s exec --no-startup-id flameshot gui
 
+# Zoom software - thanks Zozin
+# https://github.com/tsoding/boomer
 bindsym F1 exec cd ~/bin && ./boomer
 
+# Remap caps -> escape and russian keyboard
 exec setxkbmap -layout "us,ru" -option "grp:ctrl_space_toggle,caps:escape"
 
+# Hardcoded the wallpaper (probably not the best idea) --bg-max flag is recommended for wallpaper
 exec feh --bg-max /home/thyruh/wallpaper/retro-pyramid-synthwave.jpg
-exec setxkbmap caps:escape
 
+# Workspace -> app bindings
 # assign [class="Emacs"] → 3
 assign [class="Spotify"] → 1
 assign [class="Chromium"] → 2
 assign [class="Tilix"] → 3
 assign [class="discord"] → 4
+assign [class="draw.io"] → 5
 assign [class="Telegram"] → 4
-assign [class="Dolphin"] → 7
+assign [class="dolphin"] → 7
 
+# startup
 # exec --no-startup-id emacs
 exec --no-startup-id discord
 exec --no-startup-id telegram
 exec --no-startup-id chromium
+exec --no-startup-id drawio
 exec --no-startup-id spotify
 exec --no-startup-id tilix
 exec --no-startup-id telegram-desktop
 
-
-#bindsym $mod+c exec --no-startup-id pgrep -x chromium || chromium; [class="Chromium"] focus, fullscreen
-#bindsym $mod+n exec --no-startup-id pgrep -x discord || discord; [class="discord"] focus, fullscreen
-#bindsym $mod+m exec --no-startup-id pgrep -x multimc || multimc; [class="MultiMC"] focus, fullscreen
-#bindsym $mod+t exec --no-startup-id pgrep -x telegram-desktop || telegram-desktop; [class="Telegram"] focus, fullscreen
-# bindsym $mod+e exec --no-startup-id pgrep -x emacs || emacs --no-splash; [class="Emacs"] focus, fullscreen
-
-# exec xrandr --output eDP-1 --off
-exec xrandr --output eDP-1 --auto --pos 0x-768 --output HDMI-2 --primary --auto --pos 0x0
-
+# Not sure why this was a thing for me in the beginning, but I dont think I will ever be using those again
 #bindsym $mod+c exec --no-startup-id pgrep -x chromium || chromium; [class="Chromium"] focus, fullscreen
 #bindsym $mod+n exec --no-startup-id pgrep -x discord || discord; [class="discord"] focus, fullscreen
 #bindsym $mod+m exec --no-startup-id pgrep -x multimc || multimc; [class="MultiMC"] focus, fullscreen
 #bindsym $mod+t exec --no-startup-id pgrep -x telegram-desktop || telegram-desktop; [class="Telegram"] focus, fullscreen
 #bindsym $mod+e exec --no-startup-id pgrep -x emacs || emacs --no-splash; [class="Emacs"] focus, fullscreen
 
+# exec xrandr --output eDP-1 --off
+# Monitors position relative to each other
+exec xrandr --output eDP-1 --auto --pos 0x-768 --output HDMI-2 --primary --auto --pos 0x0
+
+# Niceties
+for_window [class=".*"] border pixel 0
 focus_follows_mouse no
 hide_edge_borders both
