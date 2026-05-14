@@ -1,0 +1,69 @@
+#!/bin/bash
+
+set -euo pipefail
+
+DOWNLOADS_DIR="$HOME/Downloads"
+ARCHIVE_STORE="/tmp/archives"
+
+mkdir -p "$ARCHIVE_STORE"
+
+mapfile -t archives < <(
+    find "$DOWNLOADS_DIR" -maxdepth 1 -type f \
+    \( -name "*.tar.gz" -o -name "*.tgz" \) | sort
+)
+
+count=${#archives[@]}
+
+if [ "$count" -eq 0 ]; then
+    echo "No .tar.gz or .tgz archives found in $DOWNLOADS_DIR"
+    exit 1
+fi
+
+selected=""
+
+if [ "$count" -eq 1 ]; then
+    selected="${archives[0]}"
+    echo "Found one archive:"
+    echo "  $(basename "$selected")"
+else
+    echo "Available archives:"
+    echo
+
+    for i in "${!archives[@]}"; do
+        printf "[%d] %s\n" "$((i + 1))" "$(basename "${archives[$i]}")"
+    done
+
+    echo
+    read -rp "Select archive number: " choice
+
+    if ! [[ "$choice" =~ ^[0-9]+$ ]]; then
+        echo "Invalid input"
+        exit 1
+    fi
+
+    if [ "$choice" -lt 1 ] || [ "$choice" -gt "$count" ]; then
+        echo "Choice out of range"
+        exit 1
+    fi
+
+    selected="${archives[$((choice - 1))]}"
+fi
+
+archive_name="$(basename "$selected")"
+
+echo
+echo "Extracting:"
+echo "  $archive_name"
+echo "Into:"
+echo "  $PWD"
+
+tar -xzf "$selected"
+
+echo
+echo "Moving archive to:"
+echo "  $ARCHIVE_STORE"
+
+mv "$selected" "$ARCHIVE_STORE/"
+
+echo
+echo "Done."
