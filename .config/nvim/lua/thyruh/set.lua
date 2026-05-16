@@ -27,7 +27,7 @@ vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
     pattern = "*.fg",
     callback = function()
-        vim.bo.filetype = "forge"
+        vim.bo.filetype = "forgelang"
 
         vim.bo.commentstring = "// %s"
     end,

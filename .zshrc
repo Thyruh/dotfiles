@@ -34,6 +34,8 @@ alias 3.='cd ../../../..'
 alias :q='nvim .'
 alias cal='ncal'
 
+xrandr --output HDMI-2 --primary --auto --pos 0x0 --output eDP-1 --auto --pos 50x-768
+
 # PATH (clean, additive)
 export PATH=/home/thyruh/bin:/home/thyruh/.cargo/bin:/home/thyruh/.dub/packages/dcd/0.16.2/dcd:/home/thyruh/.local/bin:/home/thyruh/.local/opt/go/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin:/home/thyruh/dlang/dmd-2.112.0/linux/bin64
 # Envman

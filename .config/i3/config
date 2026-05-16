@@ -245,7 +245,7 @@ exec --no-startup-id telegram-desktop
 # exec xrandr --output eDP-1 --off
 # Monitors position relative to each other
 # There is a 10 pixels dead zone to the right top of the screen specifically for screenshots being easier to take from that corner as a point of reference
-exec xrandr --output HDMI-2 --primary --auto --pos 0x0 --output eDP-1 --auto --pos 10x-768
+exec --no-startup-id xrandr --output HDMI-2 --primary --auto --pos 0x0 --output eDP-1 --auto --pos 10x-768
 
 # Niceties
 for_window [class=".*"] border pixel 0
