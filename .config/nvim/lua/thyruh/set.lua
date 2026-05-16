@@ -24,6 +24,15 @@ vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
   end,
 })
 
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+    pattern = "*.fg",
+    callback = function()
+        vim.bo.filetype = "forge"
+
+        vim.bo.commentstring = "// %s"
+    end,
+})
+
 vim.opt.expandtab = true
 vim.opt.smartindent = false
 vim.opt.cindent = true
