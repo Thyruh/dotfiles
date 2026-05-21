@@ -14,6 +14,9 @@ set $mod Mod1
 # Best font
 font pango:JetBrains Mono 8
 
+exec --no-startup-id xrandr --output DP-1 --off --output HDMI-1 --off --output eDP-1 --mode 1366x768 --pos 0x0 --rate 60.00 --rotate normal --output HDMI-2 --primary --mode 1920x1080 --pos 0x768 --rate 74.97 --rotate normal
+exec --no-startup-id xrdb -merge ~/.Xresources
+exec --no-startup-id xsetroot -cursor_name left_ptr
 #font pango:DejaVu Sans Mono 8
 
 # Start XDG autostart .desktop files using dex. See also
@@ -189,21 +192,17 @@ bar {
         font pango:Hack, FontAwesome 9
 }
 
-# sleep timer
-exec --no-startup-id xset s 7200 7200
-exec --no-startup-id xset +dpms
-exec --no-startup-id xset dpms 7200 7200 7200
+# sleep removal
+exec --no-startup-id xset -dpms
+exec --no-startup-id xset s off
+exec --no-startup-id xset s noblank
 
 # Useless shit
 exec --no-startup-id picom
 exec --no-startup-id pkill dunst
 
-exec --no-startup-id xset -dpms
-exec --no-startup-id xset s off
-exec --no-startup-id xset s noblank
-
 # Screenshots
-bindsym $mod+Shift+s exec --no-startup-id flameshot gui
+bindsym $mod+Shift+s exec --no-startup-id flameshot gui --region 1366x768+10+0
 
 # Zoom software - thanks Zozin
 # https://github.com/tsoding/boomer
@@ -245,9 +244,6 @@ exec --no-startup-id telegram-desktop
 # exec xrandr --output eDP-1 --off
 # Monitors position relative to each other
 # There is a 10 pixels dead zone to the right top of the screen specifically for screenshots being easier to take from that corner as a point of reference
-exec_always --no-startup-id autorandr --change
-exec --no-startup-id xrdb -merge ~/.Xresources
-exec --no-startup-id xsetroot -cursor_name left_ptr
 # Niceties
 for_window [class=".*"] border pixel 0
 focus_follows_mouse no

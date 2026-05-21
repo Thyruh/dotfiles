@@ -57,6 +57,6 @@ vim.opt.isfname:append("@-@")
 
 vim.opt.updatetime = 50
 
-vim.opt.colorcolumn = "100"
+vim.opt.colorcolumn = "130"
 vim.api.nvim_set_hl(0, "StatusLineBranch", { fg = "#ff6600", bold = true })
 vim.o.statusline = "%F:%l:%c    %#StatusLineBranch#%{FugitiveHead()}%*       %{toupper(strpart(&filetype,0,1))..strpart(&filetype,1)} sucks           ascii(0x%B)"
