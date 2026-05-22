@@ -222,7 +222,7 @@ assign [class="Tilix"] → 3
 assign [class="discord"] → 4
 assign [class="draw.io"] → 5
 assign [class="Telegram"] → 4
-assign [class="dolphin"] → 7
+assign [class="Thunar"] → 7
 
 # startup
 # exec --no-startup-id emacs
