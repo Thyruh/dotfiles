@@ -7,8 +7,8 @@ FILES=(
     ".zshrc"
     ".tmux/"
     ".tmux.conf"
-    ".emacs.d"
-    ".emacs"
+    # ".emacs.d"
+    # ".emacs"
     ".config/nvim"
     ".config/i3"
 )

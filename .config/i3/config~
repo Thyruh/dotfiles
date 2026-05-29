@@ -9,7 +9,7 @@
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
-set $mod mod4
+set $mod Mod1
 
 # Best font
 font pango:JetBrains Mono 8
