@@ -208,9 +208,6 @@ bindsym $mod+Shift+s exec --no-startup-id flameshot gui --region 1366x768+10+0
 # https://github.com/tsoding/boomer
 bindsym F1 exec cd ~/bin && ./boomer
 
-# Remap caps -> escape and russian keyboard
-exec setxkbmap -layout "us,ru" -option "grp:ctrl_space_toggle,caps:escape"
-
 # Hardcoded the wallpaper (probably not the best idea) --bg-max flag is recommended for wallpaper
 exec feh --bg-max /home/thyruh/wallpaper/retro-pyramid-synthwave.jpg
 
