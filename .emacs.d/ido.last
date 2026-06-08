@@ -1,0 +1,37 @@
+;;; -*- coding: utf-8 -*-
+
+;; ----- ido-last-directory-list -----
+(
+ ("/home/thyruh/" . "archive/")
+ ("/home/thyruh/dev/projects/" . "c/")
+ ("/home/thyruh/dev/projects/c/" . "b16/")
+)
+
+;; ----- ido-work-directory-list -----
+(
+ "/home/thyruh/"
+ "/home/thyruh/dev/projects/c/b16/"
+)
+
+;; ----- ido-work-file-list -----
+(
+ ".emacs"
+ "main.c"
+ "main"
+)
+
+;; ----- ido-dir-file-cache -----
+(
+ ("/home/thyruh/archive/" (27134 59063 490000 0) "../" "forge/" "./")
+
+ ("/home/thyruh/" (27167 21269 928117 636000) ".viminfo" "Downloads/" ".Xauthority" "Music/" "nasm-toolchain.tar.gz" ".emacs" "toolchain/" "dev/" ".xsession-errors" ".bash_profile" ".bash_history" ".xsession-errors.old" ".emacs-custom-vars.el" "../" "Pictures/" ".fehbg" "#*message*-20260530-130810#" ".bashrc" ".java/" "#*message*-20260530-130929#" ".python_history" "yay/" ".profile" "Personal/" ".tmux/" "ida-free-9.3/" ".cache/" ".emacs.custom.el" ".cargo/" ".pki/" ".rustup/" ".dmrc" "./" ".emacs.d/" ".xprofile" "backup-monitor-config/" ".local/" ".tmux.conf" "bin/" "Templates/" ".zshrc" ".ssh/" "Public/" ".icons/" ".npm/" ".idapro/" "dotfiles/" "Videos/" ".bash_logout" ".gitconfig" ".nv/" ".wget-hsts" "Documents/" ".config/" "wallpaper/" ".nimble/" "archive/" ".Xresources" ".vim/" ".gnupg/")
+
+ ("/home/thyruh/dev/projects/" (27163 11844 498855 9000) "rust/" "../" "asm/" "archived/" "c/" "forge/" "./" "cpp/" "fg/" "d/")
+
+ ("/home/thyruh/dev/projects/c/b16/" (27022 14214 0 0) "../" "main.c" "./" "main" ".git/" ".gitignore")
+
+ ("/home/thyruh/dev/projects/c/" (27167 19146 161097 515000) "../" "b16/" "forge/" "./" "calc/" "dred/" "fractran/" "xd/")
+)
+
+;; ----- ido-unc-hosts-cache -----
+t

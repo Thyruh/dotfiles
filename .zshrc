@@ -32,7 +32,6 @@ alias ...='cd ../..'
 alias 2.='cd ../../..'
 alias 3.='cd ../../../..'
 alias :q='nvim .'
-alias cal='ncal'
 
 # xrandr --output HDMI-2 --primary --auto --pos 0x0 --output eDP-1 --auto --pos 50x-768
 # xrandr --output eDP-1 --auto --pos 0x-768 --output HDMI-2 --primary --auto --pos 0x0
@@ -44,7 +43,7 @@ export PATH=/home/thyruh/bin:/home/thyruh/.cargo/bin:/home/thyruh/.dub/packages/
 feh --bg-max /home/thyruh/wallpaper/retro-pyramid-synthwave.jpg
 setxkbmap -layout "us,ru" -option "grp:shifts_toggle,caps:ctrl_modifier"
 # Keyboard / shell
-set -o vi
+set -o emacs
 
 HISTSIZE=100000
 SAVEHIST=100000
