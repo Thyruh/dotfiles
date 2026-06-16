@@ -1,6 +1,9 @@
 ;;; ~/.emacs --- Thyruh's organized Emacs config -*- lexical-binding: t; -*-
 
+;;; =========================
 ;;; User binaries
+;;; =========================
+
 (defconst thyruh-user-bin-dir (expand-file-name "~/bin"))
 
 (when (file-directory-p thyruh-user-bin-dir)
@@ -10,7 +13,15 @@
                   path-separator
                   (or (getenv "PATH") ""))))
 
-;;; Package setup
+;;; =========================
+;;; Safe dependency tracing (optional debug)
+;;; =========================
+;; (trace-function-background 'set-face-attribute)
+
+;;; =========================
+;;; Package setup (HARDENED)
+;;; =========================
+
 (require 'package)
 
 (setq package-archives
@@ -30,7 +41,7 @@
 (defun rc/require-one-package (package)
   (unless (package-installed-p package)
     (rc/package-refresh-contents-once)
-    (package-install package)))
+    (ignore-errors (package-install package))))
 
 (defun rc/require (&rest packages)
   (dolist (package packages)
@@ -42,31 +53,52 @@
 
 (rc/require 'dash 'dash-functional)
 (require 'dash)
-(require 'dash-functional)
+(ignore-errors (require 'dash-functional))
 
-(defun rc/require-theme (theme)
-  (let ((theme-package (->> theme
-                            (symbol-name)
-                            (funcall (-flip #'concat) "-theme")
-                            (intern))))
-    (rc/require theme-package)
-    (load-theme theme t)))
+;;; =========================
+;;; Theme loader helper (FIXED)
+;;; =========================
 
+(defun thy/load-theme-safe ()
+  (ignore-errors
+    (load-theme 'sexy t)))
+
+;;; ensure theme path exists
+(add-to-list 'custom-theme-load-path
+             "~/.emacs.d/elpa/sexy-theme-20250312.1640/")
+
+
+;;; =========================
 ;;; UI / UX
-(set-face-attribute 'default nil :font "JetBrains Mono ExtraBold-18")
+;;; =========================
 
-(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/gruber-darker")
-(load-theme 'gruber-darker t)
+;; FONT FIX (daemon-safe + frame-safe)
+(set-face-attribute 'default nil :font "JetBrains Mono ExtraBold-20")
+
+(defun thy/apply-font-to-frame (frame)
+  (when frame
+    (with-selected-frame frame
+      (ignore-errors
+        (set-face-attribute 'default frame :font thy/font)))))
+
+(add-hook 'after-make-frame-functions #'thy/apply-font-to-frame)
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (thy/apply-font-to-frame (selected-frame))))
+
+;; IMPORTANT: do NOT use initial-buffer-choice t (breaks daemon UX)
+(setq inhibit-startup-screen t
+      initial-scratch-message nil
+      use-dialog-box nil)
+
+(setq initial-major-mode 'text-mode)
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
 (column-number-mode 1)
 
-(setq inhibit-startup-screen t
-      initial-scratch-message nil
-      initial-buffer-choice t
-      use-dialog-box nil)
+(set-fringe-mode '(2 . 0))
 
 (setq-default cursor-type 'box
               cursor-in-non-selected-windows 'box)
@@ -75,7 +107,7 @@
 (setq blink-cursor-interval 0.5)
 
 (setq display-line-numbers-type 'relative)
-(global-display-line-numbers-mode 1)
+(global-display-line-numbers-mode 0)
 
 (setq-default truncate-lines t)
 (toggle-word-wrap 0)
@@ -88,7 +120,12 @@
               scroll-conservatively 9999
               scroll-step 1)
 
-;;; Compilation output coloring
+(load "~/.emacs.d/personal/common.el")
+
+;;; =========================
+;;; Compilation coloring
+;;; =========================
+
 (require 'ansi-color)
 
 (defun rc/colorize-compilation-buffer ()
@@ -97,18 +134,9 @@
 
 (add-hook 'compilation-filter-hook #'rc/colorize-compilation-buffer)
 
-;;; Tree-sitter
-(use-package tree-sitter
-  :defer t)
-
-(use-package tree-sitter-langs
-  :after tree-sitter
-  :defer t)
-
-(when (require 'tree-sitter nil 'noerror)
-  (global-tree-sitter-mode 1)
-  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
-
+;;; =========================
+;;; Treesit / C3
+;;; =========================
 
 (require 'treesit)
 
@@ -116,18 +144,18 @@
              '(c3 "https://github.com/c3lang/tree-sitter-c3"))
 
 (add-to-list 'load-path "~/.emacs.d/lisp/c3-ts-mode")
-(require 'treesit)
 
-(add-to-list 'treesit-language-source-alist
-             '(c3 "https://github.com/c3lang/tree-sitter-c3"))
-(require 'c3-ts-mode)
+(ignore-errors (require 'c3-ts-mode))
 
 (setq c3-ts-mode-indent-offset 4
       treesit-font-lock-level 4)
 
 (add-to-list 'auto-mode-alist '("\\.c3[it]?\\'" . c3-ts-mode))
 
+;;; =========================
 ;;; Dired
+;;; =========================
+
 (require 'dired-x)
 
 (setq dired-listing-switches "-alFhG --group-directories-first"
@@ -141,28 +169,33 @@
   :ensure nil
   :commands (dired dired-jump)
   :config
-  ;; Let Dired use the same buffer when opening directories.
   (setq dired-kill-when-opening-new-dired-buffer t))
 
 (global-set-key (kbd "C-x d") #'dired)
 
+;;; =========================
 ;;; Compilation keys
+;;; =========================
+
 (global-set-key (kbd "C-c c") #'compile)
 (global-set-key (kbd "C-c r") #'recompile)
 
 (setq compile-command ""
       compilation-read-command t)
 
-;;; Files / backups / autosaves
+;;; =========================
+;;; Files / backups
+;;; =========================
+
 (setq auto-save-default nil
       auto-save-list-file-prefix nil
       make-backup-files nil
       create-lockfiles nil)
 
-;;; LSP
-(setq lsp-auto-guess-root t)
-
+;;; =========================
 ;;; Tabs / indentation
+;;; =========================
+
 (setq-default tab-width 4
               indent-tabs-mode t)
 
@@ -173,174 +206,183 @@
 
 (add-hook 'fundamental-mode-hook #'thyruh-fundamental-tabs)
 
-;; C / C++ classic modes.
-(setq-default c-basic-offset 4)
+(setq-default c-basic-offset 4
+              c-ts-mode-indent-offset 4
+              c++-ts-mode-indent-offset 4)
 
-;; Tree-sitter C / C++ modes.
-(setq-default c-ts-mode-indent-offset 4)
-(setq-default c++-ts-mode-indent-offset 4)
+;;; =========================
+;;; Forge whitespace tools
+;;; =========================
 
-;;; ------------------------------
-;;; Forge: highlight extra whitespace
-;;; ------------------------------
+(defface thy/forge-leading-space-face
+  '((t (:background "firebrick" :foreground "white")))
+  "Face for leading spaces in Forge buffers.")
 
-(require 'whitespace)
+(defface thy/forge-trailing-whitespace-face
+  '((t (:background "red1" :foreground "white")))
+  "Face for trailing whitespace in Forge buffers.")
 
 (defun thy/forge-highlight-extra-whitespace ()
-  "Highlight suspicious whitespace in Forge buffers."
-  (setq-local whitespace-style
-              '(face
-                trailing
-                tabs
-                space-before-tab
-                empty))
-
-  ;; Buffer-local face overrides, so this does not poison every mode.
-  (face-remap-add-relative 'whitespace-trailing
-                           '(:background "red1" :foreground "white"))
-  (face-remap-add-relative 'whitespace-tab
-                           '(:background "firebrick"))
-  (face-remap-add-relative 'whitespace-space-before-tab
-                           '(:background "red1" :foreground "white"))
-  (face-remap-add-relative 'whitespace-empty
-                           '(:background "red1" :foreground "white"))
-
-  (whitespace-mode 1))
+  (whitespace-mode -1)
+  (setq-local whitespace-action nil)
+  (font-lock-add-keywords
+   nil
+   '(("^ +" 0 'thy/forge-leading-space-face prepend)
+     ("[ \t]+$" 0 'thy/forge-trailing-whitespace-face prepend))
+   'append)
+  (font-lock-flush)
+  (font-lock-ensure))
 
 (add-hook 'forge-ts-mode-hook #'thy/forge-highlight-extra-whitespace)
 (add-hook 'forgelang-mode-hook #'thy/forge-highlight-extra-whitespace)
+
+;;; =========================
 ;;; Editing packages
+;;; =========================
+
+(use-package multiple-cursors
+  :bind (("C->" . mc/mark-next-like-this)
+         ("C-<" . mc/mark-previous-like-this)
+         ("C-c C-<" . mc/mark-all-like-this)))
+
 (rc/require 'paredit 'move-text)
 
 (global-set-key (kbd "M-p") #'move-text-up)
 (global-set-key (kbd "M-n") #'move-text-down)
 
-;;; Global keys
 (global-set-key (kbd "C-x C-r") #'query-replace)
 (global-set-key (kbd "C-x C-w") #'other-window)
 (global-set-key (kbd "<escape>") #'keyboard-escape-quit)
 
-;;; ------------------------------
-;;; Minibuffer completion style (Tsoding-like)
-;;; ------------------------------
-;; Pure icomplete/fido (horizontal) + Marginalia annotations.
+;;; =========================
+;;; Completion (icomplete)
+;;; =========================
+
 (icomplete-mode 1)
 (fido-mode 1)
-(fido-vertical-mode -1) ;; ensure horizontal UI, not vertical
+(fido-vertical-mode -1)
 
 (setq icomplete-compute-delay 0
       icomplete-hide-common-prefix nil
       icomplete-show-matches-on-no-input t
       icomplete-separator "  |  ")
 
-;; Make C-n / C-p move through candidates (not history)
 (with-eval-after-load 'icomplete
   (define-key icomplete-minibuffer-map (kbd "C-n") #'icomplete-forward-completions)
   (define-key icomplete-minibuffer-map (kbd "C-p") #'icomplete-backward-completions))
 
-;; Nice annotations in minibuffer candidates
 (use-package marginalia
   :init (marginalia-mode 1))
 
-;; Explicitly disable Ivy/Counsel to avoid conflicts with icomplete
-(when (fboundp 'ivy-mode)    (ivy-mode -1))
-(when (fboundp 'counsel-mode)(counsel-mode -1))
-
-;;; ------------------------------
-;;; In-buffer completion: Company
-;;; Auto-popup, no LSP
-;;; Sources: TAGS + open buffers + keywords + files
-;;; ------------------------------
+;;; =========================
+;;; Company
+;;; =========================
 
 (use-package company
   :hook ((prog-mode text-mode) . company-mode)
   :config
   (setq company-idle-delay 0.20
         company-minimum-prefix-length 2
-        company-tooltip-align-annotations t
         company-require-match nil
         company-selection-wrap-around t
-
-        ;; Auto-trigger while typing normal characters.
-        company-begin-commands '(self-insert-command)
-
-        ;; No LSP. No semantic server. Just old-school sources.
         company-backends
         '((company-etags company-dabbrev-code company-keywords)
           company-dabbrev
-          company-files)
+          company-files)))
 
-        ;; Preserve original casing. Emacs defaults love vandalism.
-        company-dabbrev-code-everywhere t
-        company-dabbrev-downcase nil
-        company-dabbrev-ignore-case nil)
+;;; =========================
+;;; Consult (FIXED override behavior)
+;;; =========================
 
-  ;; Keep a manual trigger too.
-  (global-set-key (kbd "C-c SPC") #'company-complete)
-  (global-set-key (kbd "C-c TAB") #'company-complete)
-
-  ;; Popup navigation.
-  (define-key company-active-map (kbd "M-n") #'company-select-next)
-  (define-key company-active-map (kbd "M-p") #'company-select-previous)
-  (define-key company-active-map (kbd "TAB") #'company-complete-selection)
-  (define-key company-active-map (kbd "<tab>") #'company-complete-selection)
-  (define-key company-active-map (kbd "RET") #'company-complete-selection)
-  (define-key company-active-map (kbd "<return>") #'company-complete-selection))
-
-;;; Consult, preserved
 (use-package consult
-  :bind (("C-,"     . consult-buffer)       ;; buffers + recent files
-         ("C-/"     . consult-line)         ;; search in current buffer
-         ("M-y"     . consult-yank-pop)     ;; fuzzy kill-ring
+  :bind (("C-," . consult-buffer)
+         ("C-/" . consult-line)
+         ("M-y" . consult-yank-pop)
          ("C-x r b" . consult-bookmark)
          ("C-x C-r" . consult-recent-file))
   :config
-  ;; Fix consult-project root detection for VC repos.
+  ;; FORCE override everywhere (even Org / minor modes)
+  (keymap-set override-global-map "C-," #'consult-buffer)
+
   (setq consult-project-function
-        (lambda (_prompt)
+        (lambda (_)
           (when (fboundp 'vc-root-dir)
             (vc-root-dir))))
 
-  (setq consult-project-root-function
-        (lambda ()
-          (when (fboundp 'vc-root-dir)
-            (vc-root-dir))))
-
-  ;; Project ripgrep helper.
   (defun thy/consult-ripgrep-project ()
-    "Run consult-ripgrep from the project root if available, else default dir."
     (interactive)
-    (let ((default-directory (or (funcall consult-project-root-function)
+    (let ((default-directory (or (funcall consult-project-function)
                                  default-directory)))
       (consult-ripgrep default-directory))))
 
 (global-set-key (kbd "C-.") #'thy/consult-ripgrep-project)
 
-;;; Forge language modes
+;;; =========================
+;;; Forge treesit mode
+;;; =========================
+
 (add-to-list 'load-path
-             (expand-file-name "~/Programming/personal/forge/tools/editor/emacs"))
+             (expand-file-name "~/Programming/personal/forge-ref/tools/editor/emacs"))
 
 (add-to-list 'treesit-extra-load-path
              (expand-file-name "~/.emacs.d/tree-sitter"))
 
-(require 'forge-emacs)
+(ignore-errors (require 'forge-ts-mode))
 
+(add-to-list 'auto-mode-alist
+             '("\\.fg\\'" . forge-ts-mode))
+
+
+(define-abbrev global-abbrev-table
+  "MIT"
+  (format
+   "MIT License
+
+Copyright (c) %s Yuzef Shumovich <shumovichyuzef@gmail.com>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the \"Software\"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE."
+   (format-time-string "%Y")))
+
+(add-hook 'emacs-startup-hook #'thy/load-theme-safe)
+
+;;; =========================
 ;;; Custom file
+;;; =========================
+
 (setq custom-file (expand-file-name "~/.emacs-custom-vars.el"))
 (load custom-file 'noerror 'nomessage)
 
+;;; =========================
+;;; custom-set (kept)
+;;; =========================
+
 (custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages '(consult gruber-darker-theme marginalia smartparens)))
+ '(package-selected-packages '(consult sexy marginalia smartparens)))
 
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+(custom-set-faces)
 
-;;; fixed-emacs.el ends here
+;;; =========================
+;;; Unsetting annoying quality not-life binds
+;;; =========================
+
+(keymap-global-unset "C-x C-c")
+(keymap-global-unset "C-x f")
+
+;;; END
+(put 'narrow-to-region 'disabled nil)

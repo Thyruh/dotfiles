@@ -1,5 +1,5 @@
+# Prompt magic
 autoload -Uz vcs_info add-zsh-hook
-
 _prompt_git_or_fallback() {
     vcs_info
     local branch
@@ -28,6 +28,7 @@ setopt PROMPT_SUBST
 alias logout='dm-tool switch-to-greeter'
 alias cls='clear && cd'
 alias ..='cd ..'
+alias -- -='cd -'
 alias ...='cd ../..'
 alias 2.='cd ../../..'
 alias 3.='cd ../../../..'
@@ -49,8 +50,5 @@ HISTSIZE=100000
 SAVEHIST=100000
 HISTFILE=~/.config/.zsh_history
 
-clear
-
-alias discord='flatpak run com.discordapp.Discord'
-export XDG_DATA_DIRS="/var/lib/flatpak/exports/share:$HOME/.local/share/flatpak/exports/share:/usr/local/share:/usr/share"
 export PATH=$HOME/.nimble/bin:$PATH
+clear

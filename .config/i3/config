@@ -212,17 +212,17 @@ bindsym F1 exec cd ~/bin && ./boomer
 exec feh --bg-max /home/thyruh/wallpaper/retro-pyramid-synthwave.jpg
 
 # Workspace -> app bindings
-# assign [class="Emacs"] → 3
 assign [class="Spotify"] → 1
 assign [class="Chromium"] → 2
 assign [class="Tilix"] → 3
+assign [class="Emacs"] → 3
 assign [class="discord"] → 4
 assign [class="draw.io"] → 5
 assign [class="Telegram"] → 4
 assign [class="Thunar"] → 7
 
 # startup
-# exec --no-startup-id emacs
+exec --no-startup-id emacs
 exec --no-startup-id discord
 exec --no-startup-id telegram
 exec --no-startup-id chromium
@@ -230,13 +230,14 @@ exec --no-startup-id drawio
 exec --no-startup-id spotify
 exec --no-startup-id tilix
 exec --no-startup-id telegram-desktop
+exec --no-startup-id flameshot
 
 # Not sure why this was a thing for me in the beginning, but I dont think I will ever be using those again
 #bindsym $mod+c exec --no-startup-id pgrep -x chromium || chromium; [class="Chromium"] focus, fullscreen
 #bindsym $mod+n exec --no-startup-id pgrep -x discord || discord; [class="discord"] focus, fullscreen
 #bindsym $mod+m exec --no-startup-id pgrep -x multimc || multimc; [class="MultiMC"] focus, fullscreen
 #bindsym $mod+t exec --no-startup-id pgrep -x telegram-desktop || telegram-desktop; [class="Telegram"] focus, fullscreen
-#bindsym $mod+e exec --no-startup-id pgrep -x emacs || emacs --no-splash; [class="Emacs"] focus, fullscreen
+bindsym $mod+e exec --no-startup-id pgrep -x emacs || emacs --no-splash; [class="Emacs"] focus, fullscreen
 
 # exec xrandr --output eDP-1 --off
 # Monitors position relative to each other
