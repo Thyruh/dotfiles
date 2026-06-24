@@ -59,13 +59,13 @@
 ;;; Theme loader helper (FIXED)
 ;;; =========================
 
-(defun thy/load-theme-safe ()
-  (ignore-errors
-    (load-theme 'sexy t)))
-
 ;;; ensure theme path exists
 (add-to-list 'custom-theme-load-path
-             "~/.emacs.d/elpa/sexy-theme-20250312.1640/")
+             "~/.emacs.d/themes/cinder-atlas-theme/")
+
+(defun thy/load-theme-safe ()
+  (ignore-errors
+    (load-theme 'cinder-atlas t)))
 
 
 ;;; =========================
@@ -211,30 +211,31 @@
               c++-ts-mode-indent-offset 4)
 
 ;;; =========================
-;;; Forge whitespace tools
+;;; Whitespace tools
 ;;; =========================
 
-(defface thy/forge-leading-space-face
+(defface thy/leading-space-face
   '((t (:background "firebrick" :foreground "white")))
-  "Face for leading spaces in Forge buffers.")
+  "Face for leading spaces in code buffers.")
 
-(defface thy/forge-trailing-whitespace-face
+(defface thy/trailing-whitespace-face
   '((t (:background "red1" :foreground "white")))
-  "Face for trailing whitespace in Forge buffers.")
+  "Face for trailing whitespace in code buffers.")
 
-(defun thy/forge-highlight-extra-whitespace ()
+(defun thy/highlight-extra-whitespace ()
   (whitespace-mode -1)
   (setq-local whitespace-action nil)
   (font-lock-add-keywords
    nil
-   '(("^ +" 0 'thy/forge-leading-space-face prepend)
-     ("[ \t]+$" 0 'thy/forge-trailing-whitespace-face prepend))
+   '(("^ +" 0 'thy/leading-space-face prepend)
+     ("[ \t]+$" 0 'thy/trailing-whitespace-face prepend))
    'append)
   (font-lock-flush)
   (font-lock-ensure))
 
-(add-hook 'forge-ts-mode-hook #'thy/forge-highlight-extra-whitespace)
-(add-hook 'forgelang-mode-hook #'thy/forge-highlight-extra-whitespace)
+(add-hook 'forge-ts-mode-hook #'thy/highlight-extra-whitespace)
+(add-hook 'c++-mode-hook #'thy/highlight-extra-whitespace)
+(add-hook 'c-mode-hook #'thy/highlight-extra-whitespace)
 
 ;;; =========================
 ;;; Editing packages
@@ -296,26 +297,11 @@
 
 (use-package consult
   :bind (("C-," . consult-buffer)
+		 ("C-." . consult-ripgrep)
          ("C-/" . consult-line)
          ("M-y" . consult-yank-pop)
          ("C-x r b" . consult-bookmark)
-         ("C-x C-r" . consult-recent-file))
-  :config
-  ;; FORCE override everywhere (even Org / minor modes)
-  (keymap-set override-global-map "C-," #'consult-buffer)
-
-  (setq consult-project-function
-        (lambda (_)
-          (when (fboundp 'vc-root-dir)
-            (vc-root-dir))))
-
-  (defun thy/consult-ripgrep-project ()
-    (interactive)
-    (let ((default-directory (or (funcall consult-project-function)
-                                 default-directory)))
-      (consult-ripgrep default-directory))))
-
-(global-set-key (kbd "C-.") #'thy/consult-ripgrep-project)
+         ("C-x C-r" . consult-recent-file)))
 
 ;;; =========================
 ;;; Forge treesit mode
@@ -332,6 +318,9 @@
 (add-to-list 'auto-mode-alist
              '("\\.fg\\'" . forge-ts-mode))
 
+;;; =========================
+;;; MIT abbrev
+;;; =========================
 
 (define-abbrev global-abbrev-table
   "MIT"
@@ -377,9 +366,9 @@ SOFTWARE."
 
 (custom-set-faces)
 
-;;; =========================
+;;; ==================================================
 ;;; Unsetting annoying quality not-life binds
-;;; =========================
+;;; ==================================================
 
 (keymap-global-unset "C-x C-c")
 (keymap-global-unset "C-x f")

@@ -42,7 +42,7 @@ export PATH=/home/thyruh/bin:/home/thyruh/.cargo/bin:/home/thyruh/.dub/packages/
 # Envman
 [ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
 feh --bg-max /home/thyruh/wallpaper/retro-pyramid-synthwave.jpg
-setxkbmap -layout "us,ru" -option "grp:shifts_toggle,caps:ctrl_modifier"
+setxkbmap -layout "us,ru" -option "grp:shifts_toggle, caps:ctrl_modifier"
 # Keyboard / shell
 set -o emacs
 
