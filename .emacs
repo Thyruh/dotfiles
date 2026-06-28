@@ -236,6 +236,7 @@
 (add-hook 'forge-ts-mode-hook #'thy/highlight-extra-whitespace)
 (add-hook 'c++-mode-hook #'thy/highlight-extra-whitespace)
 (add-hook 'c-mode-hook #'thy/highlight-extra-whitespace)
+;; (add-hook 'emacs-lisp-mode-hook #'thy/highlight-extra-whitespace)
 
 ;;; =========================
 ;;; Editing packages
@@ -308,7 +309,7 @@
 ;;; =========================
 
 (add-to-list 'load-path
-             (expand-file-name "~/Programming/personal/forge-ref/tools/editor/emacs"))
+             (expand-file-name "~/dev/personal/forge-ref/tools/editor/emacs"))
 
 (add-to-list 'treesit-extra-load-path
              (expand-file-name "~/.emacs.d/tree-sitter"))
