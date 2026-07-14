@@ -135,24 +135,6 @@
 (add-hook 'compilation-filter-hook #'rc/colorize-compilation-buffer)
 
 ;;; =========================
-;;; Treesit / C3
-;;; =========================
-
-(require 'treesit)
-
-(add-to-list 'treesit-language-source-alist
-             '(c3 "https://github.com/c3lang/tree-sitter-c3"))
-
-(add-to-list 'load-path "~/.emacs.d/lisp/c3-ts-mode")
-
-(ignore-errors (require 'c3-ts-mode))
-
-(setq c3-ts-mode-indent-offset 4
-      treesit-font-lock-level 4)
-
-(add-to-list 'auto-mode-alist '("\\.c3[it]?\\'" . c3-ts-mode))
-
-;;; =========================
 ;;; Dired
 ;;; =========================
 
@@ -214,9 +196,9 @@
 ;;; Whitespace tools
 ;;; =========================
 
-(defface thy/leading-space-face
-  '((t (:background "firebrick" :foreground "white")))
-  "Face for leading spaces in code buffers.")
+;; (defface thy/leading-space-face
+;;   '((t (:background "firebrick" :foreground "white")))
+;;   "Face for leading spaces in code buffers.")
 
 (defface thy/trailing-whitespace-face
   '((t (:background "red1" :foreground "white")))
