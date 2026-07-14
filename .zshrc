@@ -38,7 +38,7 @@ alias :q='nvim .'
 # xrandr --output eDP-1 --auto --pos 0x-768 --output HDMI-2 --primary --auto --pos 0x0
 
 # PATH (clean, padditive)
-export PATH=/home/thyruh/bin:/home/thyruh/.cargo/bin:/home/thyruh/.dub/packages/dcd/0.16.2/dcd:/home/thyruh/.local/bin:/home/thyruh/.local/opt/go/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin:/home/thyruh/dlang/dmd-2.112.0/linux/bin64
+export PATH="$PATH:/home/thyruh/bin"
 # Envman
 [ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
 feh --bg-max /home/thyruh/wallpaper/retro-pyramid-synthwave.jpg
