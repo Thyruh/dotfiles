@@ -13,8 +13,7 @@ set $mod mod4
 
 # Best font
 font pango:JetBrains Mono 8
-
-exec --no-startup-id xrandr --output DP-1 --off --output HDMI-1 --off --output eDP-1 --mode 1366x768 --pos 0x0 --rate 60.00 --rotate normal --output HDMI-2 --primary --mode 1920x1080 --pos 0x768 --rate 74.97 --rotate normal
+exec --no-startup-id xrandr --output eDP-1 --mode 1368x768 --pos 0x0 --output HDMI-1 --primary --mode 1920x1080 --rate 74.97 --pos 0x768
 exec --no-startup-id xrdb -merge ~/.Xresources
 exec --no-startup-id xsetroot -cursor_name left_ptr
 #font pango:DejaVu Sans Mono 8
@@ -187,9 +186,9 @@ bar {
         status_command i3status
         position bottom
         output eDP-1
-        output HDMI-2
+        output HDMI-1
         separator_symbol " | "
-        font pango:Hack, FontAwesome 9
+        font pango:Hack, FontAwesome 8
 }
 
 # sleep removal
@@ -209,16 +208,16 @@ bindsym $mod+Shift+s exec --no-startup-id flameshot gui --region 1366x768+10+0
 bindsym F1 exec cd ~/bin && ./boomer
 
 # Hardcoded the wallpaper (probably not the best idea) --bg-max flag is recommended for wallpaper
-exec feh --bg-max /home/thyruh/wallpaper/retro-pyramid-synthwave.jpg
+exec feh --bg-max /home/thyruh/Personal/Wallpapers/retro-pyramid-synthwave.jpg
 
 # Workspace -> app bindings
 assign [class="Spotify"] → 1
 assign [class="Chromium"] → 2
-assign [class="Tilix"] → 3
 assign [class="Emacs"] → 3
 assign [class="discord"] → 4
-assign [class="draw.io"] → 5
 assign [class="Telegram"] → 4
+assign [class="draw.io"] → 5
+assign [class="Tilix"] → 6
 assign [class="Thunar"] → 7
 
 # startup

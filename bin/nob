@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
-BINARY="nob"
+
+BINARY="main"
 TARGET_DIR="$PWD"
+CFLAGS="-Wall -Wextra"
+LDFLAGS="-lX11 -lXfixes"
 
 if [ ! -f "$TARGET_DIR/$BINARY" ] && [ -f "$TARGET_DIR/${BINARY}.c" ]; then
-    gcc "$TARGET_DIR/${BINARY}.c" -o "$TARGET_DIR/$BINARY" || exit 1
+    gcc "$TARGET_DIR/${BINARY}.c" -o "$TARGET_DIR/$BINARY" $CFLAGS $LDFLAGS || exit 1
 elif [ ! -f "$TARGET_DIR/$BINARY" ] && [ ! -f "$TARGET_DIR/${BINARY}.c" ]; then
-    echo "No binary and no nob.c in the current directory."
+    echo "No binary and no main.c in the current directory."
     exit 1
 fi
 

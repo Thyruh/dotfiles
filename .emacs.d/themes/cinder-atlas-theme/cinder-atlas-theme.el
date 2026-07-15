@@ -1,7 +1,8 @@
 ;;; cinder-atlas-theme.el --- Cinder Atlas theme -*- lexical-binding: t; -*-
 
+
 ;; Author: Thyruh
-;; Version: 0.1.0
+;; Version: 0.1.2
 ;; Package-Requires: ((emacs "27.1"))
 ;; SPDX-License-Identifier: MIT
 ;; URL: https://github.com/Thyruh/cinder-atlas-theme
@@ -34,29 +35,29 @@
 
 (deftheme cinder-atlas "Cinder Atlas color theme")
 
-(let ((background "#0e070d")
-      (text       "#d1b897")
-      (selection  "#0000ff")
+(let ((background		"#0e070d")
+      (text				"#d1b897")
+	  (selection		"#23404d")
 
-      (comments   "#62788F")
-      (punctuation "#808080")
+      (comments			"#62788F")
+      (punctuation		"#808080")
 
-      (keywords   "#ffffff")
-      (variables  "#c1d1e3")
-      (functions  "#ffffff")
-      (methods    "#c1d1e3")
-      (strings    "#73c936")
-      (constants  "#808080")
-      (macros     "#8cde94")
+      (keywords			"#ffffff")
+      (variables		"#c1d1e3")
+      (functions		"#ffffff")
+      (methods			"#c1d1e3")
+      (strings			"#73c936")
+      (constants		"#808080")
+      (macros			"#8cde94")
 
-      (builtin    "#ffffff")
+      (builtin			"#ffffff")
 
-      (white      "#ffffff")
+      (white			"#ffffff")
 
-      (error      "#ff0000")
-      (warning    "#ffaa00")
+      (error			"#ff0000")
+      (warning			"#ffaa00")
 
-      (highlight-line "#0b3335"))
+      (highlight-line	"#0b3335"))
 
   (custom-theme-set-faces
    'cinder-atlas
@@ -96,6 +97,10 @@
    `(compilation-warning ((t (:foreground ,warning :weight bold))))
    `(compilation-error   ((t (:foreground ,error :weight bold))))
 
+
+   ;; (v0.1.1) Fixed: https://emacs.stackexchange.com/questions/85836/i-need-help-extending-my-theme-mode-line-inactive-selection-framing
+   ;; thanks to NickD.
+   
    ;; mode-line
    `(mode-line
 	 ((t (:background ,text
